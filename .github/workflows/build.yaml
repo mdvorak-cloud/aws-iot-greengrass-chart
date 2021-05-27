@@ -75,7 +75,7 @@ jobs:
       - name: Wait
         id: wait
         run: |
-          kubectl wait --for=condition=available --timeout=60s "deployment/${NAME}"
+          kubectl wait --for=condition=available --timeout=120s "deployment/${NAME}"
         continue-on-error: true
 
       - name: Print container logs
