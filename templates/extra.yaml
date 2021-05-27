@@ -1,4 +1,4 @@
 {{- range $o := .Values.extraObjects }}
 ---
 {{ $o | toYaml }}
-{{- end }}
+  {{- end }}
