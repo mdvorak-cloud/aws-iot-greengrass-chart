@@ -2,6 +2,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# NOTE Deployment expects Secret of same name to be present, with device.pem.crt and private.pem.key keys.
+
 replicaCount: 1
 
 image:
@@ -11,8 +13,20 @@ image:
   tag: ""
 
 greengrass:
-  thingName:
-  awsRegion:
+  # Mandatory
+  thingName: ""
+  awsRegion: ""
+  awsPrefix: ""
+  iotRoleAlias: ""
+  # Optional
+  configPath: "/greengrass/config.yaml"
+  certificateFilePath: "/greengrass/certs/device.pem.crt"
+  privateKeyPath: "/greengrass/certs/private.pem.key"
+  rootCaPath: "/greengrass/certs/AmazonRootCA1.pem"
+  rootpath: "/greengrass/v2"
+  componentDefaultUser: "ggc_user:ggc_group"
+  deployDevTools: true
+  nucleusConfiguration: { }
 
 imagePullSecrets: [ ]
 nameOverride: ""
@@ -72,13 +86,6 @@ resources: { }
 # requests:
 #   cpu: 100m
 #   memory: 128Mi
-
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
 
 nodeSelector: { }
 

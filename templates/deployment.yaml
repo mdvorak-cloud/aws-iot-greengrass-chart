@@ -3,34 +3,32 @@ kind: Deployment
 metadata:
   name: {{ include "aws-iot-greengrass.fullname" . }}
   labels:
-    {{- include "aws-iot-greengrass.labels" . | nindent 4 }}
+  {{- include "aws-iot-greengrass.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
-      {{- include "aws-iot-greengrass.selectorLabels" . | nindent 6 }}
+  {{- include "aws-iot-greengrass.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
       annotations:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "aws-iot-greengrass.selectorLabels" . | nindent 8 }}
+    {{- include "aws-iot-greengrass.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "aws-iot-greengrass.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
@@ -46,16 +44,57 @@ spec:
               path: /
               port: http
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+          {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: GGC_ROOT_PATH
+              value: {{ .Values.greengrass.rootpath | quote }}
+            - name: AWS_REGION
+              value: {{ .Values.greengrass.awsRegion | quote }}
+            - name: PROVISION
+              value: "false"
+            - name: COMPONENT_DEFAULT_USER
+              value: {{ .Values.greengrass.componentDefaultUser | quote }}
+            - name: DEPLOY_DEV_TOOLS
+              value: {{ .Values.greengrass.deployDevTools }}
+            - name: INIT_CONFIG
+              value: {{ .Values.greengrass.configPath | quote }}
+          volumeMounts:
+            - mountPath: {{ .Values.greengrass.certificateFilePath | quote }}
+              name: credentials
+              readOnly: true
+              subPath: device.pem.crt
+            - mountPath: {{ .Values.greengrass.privateKeyPath | quote }}
+              name: credentials
+              readOnly: true
+              subPath: private.pem.key
+            - mountPath: {{ .Values.greengrass.rootCaPath | quote }}
+              name: rootca
+              readOnly: true
+              subPath: AmazonRootCA1.pem
+            - mountPath: {{ .Values.greengrass.configPath | quote }}
+              name: config
+              readOnly: true
+              subPath: config.yaml
+
       {{- with .Values.nodeSelector }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.affinity }}
       affinity:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.tolerations }}
       tolerations:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "aws-iot-greengrass.fullname" . }}
+        - name: rootca
+          configMap:
+            name: {{ include "aws-iot-greengrass.fullname" . }}-rootca
+        - name: credentials
+          secret:
+            secretName: {{ include "aws-iot-greengrass.fullname" . }}
