@@ -78,11 +78,6 @@ jobs:
           kubectl describe "deployment/${NAME}"
           kubectl logs "deployment/${NAME}"
 
-      - name: Helm test
-        run: |
-          helm test "${NAME}" --logs
-          kubectl logs "deployment/${NAME}"
-
   release:
     name: Release
     runs-on: ubuntu-latest
