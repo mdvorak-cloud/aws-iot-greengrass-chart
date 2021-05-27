@@ -100,7 +100,7 @@ tolerations: [ ]
 affinity: { }
 
 env: [ ]
-# - name: STREAM_MANAGER_SERVER_PORT
-#   value: "8088"
+#  - name: STREAM_MANAGER_SERVER_PORT
+#    value: "8088"
 
 extraObjects: [ ]
