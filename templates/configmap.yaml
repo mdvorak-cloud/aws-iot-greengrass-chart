@@ -21,4 +21,6 @@ data:
           iotRoleAlias: {{ .Values.greengrass.iotRoleAlias | quote }}
           iotDataEndpoint: {{ .Values.greengrass.iotDataEndpoint | quote }}
           iotCredEndpoint: {{ .Values.greengrass.iotCredEndpoint | quote }}
-    {{ toYaml .Values.greengrass.nucleusConfiguration | nindent 10 }}
+          {{- with .Values.greengrass.nucleusConfiguration }}
+          {{- toYaml . | nindent 10 }}
+          {{- end }}
