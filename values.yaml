@@ -26,7 +26,7 @@ greengrass:
   rootCaPath: "/greengrass/certs/AmazonRootCA1.pem"
   rootpath: "/greengrass/v2"
   componentDefaultUser: "ggc_user:ggc_group"
-  deployDevTools: true
+  deployDevTools: false
   nucleusConfiguration: { }
 
 imagePullSecrets: [ ]
