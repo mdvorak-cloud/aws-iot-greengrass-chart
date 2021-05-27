@@ -62,6 +62,7 @@ jobs:
       # Deploy
       - name: Helm install
         run: |
+          kubectl apply -f ci/fake-secret.yaml
           helm install "${NAME}" . --set image.tag="${IMAGE_TAG}"
 
       # Test deployment
