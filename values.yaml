@@ -59,7 +59,7 @@ securityContext: { }
 service:
   type: ClusterIP
   ports: [ ]
-#    - name: stream-manager-server
+#    - name: stream-manager
 #      port: 8088
 #      containerPort: 8088
 #      protocol: TCP
