@@ -50,7 +50,7 @@ spec:
             - name: COMPONENT_DEFAULT_USER
               value: {{ .Values.greengrass.componentDefaultUser | quote }}
             - name: DEPLOY_DEV_TOOLS
-              value: {{ .Values.greengrass.deployDevTools }}
+              value: {{ .Values.greengrass.deployDevTools | quote }}
             - name: INIT_CONFIG
               value: {{ .Values.greengrass.configPath | quote }}
           volumeMounts:
