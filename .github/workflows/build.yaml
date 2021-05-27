@@ -69,12 +69,13 @@ jobs:
       - name: Wait
         id: wait
         run: |
-          kubectl wait --for=condition=available --timeout=30s "deployment/${NAME}"
+          kubectl wait --for=condition=available --timeout=60s "deployment/${NAME}"
         continue-on-error: true
 
       - name: Print container logs
         if: steps.wait.outcome == 'failure'
         run: |
+          kubectl describe "deployment/${NAME}"
           kubectl logs "deployment/${NAME}"
 
       - name: Helm test
