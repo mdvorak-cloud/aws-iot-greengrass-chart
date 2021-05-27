@@ -16,7 +16,8 @@ greengrass:
   # Mandatory
   thingName: ""
   awsRegion: ""
-  awsPrefix: ""
+  iotDataEndpoint: ""
+  iotCredEndpoint: ""
   iotRoleAlias: ""
   # Optional
   configPath: "/greengrass/config.yaml"

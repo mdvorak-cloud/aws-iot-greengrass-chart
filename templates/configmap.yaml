@@ -19,7 +19,6 @@ data:
         configuration:
           awsRegion: {{ .Values.greengrass.awsRegion | quote }}
           iotRoleAlias: {{ .Values.greengrass.iotRoleAlias | quote }}
-          # TODO verify
-          iotDataEndpoint: "{{ .Values.greengrass.awsPrefix}}-ats.iot.{{ .Values.greengrass.awsRegion | quote }}.amazonaws.com"
-          iotCredEndpoint: "{{ .Values.greengrass.awsPrefix }}.credentials.{{ .Values.greengrass.awsRegion | quote }}.amazonaws.com"
+          iotDataEndpoint: {{ .Values.greengrass.iotDataEndpoint | quote }}
+          iotCredEndpoint: {{ .Values.greengrass.iotCredEndpoint | quote }}
     {{ toYaml .Values.greengrass.nucleusConfiguration | nindent 10 }}
