@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  aws-iot-greengrass:
+  - apiVersion: v2
+    appVersion: 2.1.0-0
+    created: "2021-05-27T15:05:02.681135899Z"
+    description: A Helm chart for Kubernetes
+    digest: b3db7a43888bf2836c732b85e61b8d48dd77051d24f179c531ec7653af880894
+    name: aws-iot-greengrass
+    type: application
+    urls:
+    - https://mdvorak-cloud.github.io/aws-iot-greengrass-chart/aws-iot-greengrass-0.0.1.tgz
+    version: 0.0.1
+generated: "2021-05-27T15:05:02.678936383Z"
