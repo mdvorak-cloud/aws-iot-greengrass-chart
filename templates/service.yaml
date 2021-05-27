@@ -3,13 +3,13 @@ kind: Service
 metadata:
   name: {{ include "aws-iot-greengrass.fullname" . }}
   labels:
-    {{- include "aws-iot-greengrass.labels" . | nindent 4 }}
+  {{- include "aws-iot-greengrass.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: 8883
       protocol: TCP
-      name: http
+      name: mqtt
   selector:
-    {{- include "aws-iot-greengrass.selectorLabels" . | nindent 4 }}
+  {{- include "aws-iot-greengrass.selectorLabels" . | nindent 4 }}
