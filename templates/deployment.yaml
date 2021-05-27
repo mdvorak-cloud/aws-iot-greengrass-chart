@@ -13,6 +13,8 @@ spec:
     metadata:
       {{- with .Values.podAnnotations }}
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/rootca: {{ include (print $.Template.BasePath "/rootca.yaml") . | sha256sum }}
       {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
