@@ -37,9 +37,9 @@ spec:
             - name: mqtt
               containerPort: 8883
               protocol: TCP
-          readinessProbe:
-            tcpSocket:
-              port: mqtt
+          #readinessProbe:
+          #  tcpSocket:
+          #    port: mqtt
           resources:
           {{- toYaml .Values.resources | nindent 12 }}
           env:
