@@ -7,7 +7,7 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: amazon/aws-iot-greengrass
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
