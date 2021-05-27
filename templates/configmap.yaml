@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "aws-iot-greengrass.fullname" . }}
+  labels:
+  {{- include "aws-iot-greengrass.labels" . | nindent 4 }}
+data:
+  config.yaml: |
+    system:
+      certificateFilePath: "/tmp/certs/device.pem.crt"
+      privateKeyPath: "/tmp/certs/private.pem.key"
+      rootCaPath: "/tmp/certs/AmazonRootCA1.pem"
+      rootpath: "/greengrass/v2"
+      thingName: {{ .Values.greengrass.thingName | quote }}
+    services:
+      aws.greengrass.Nucleus:
+        componentType: "NUCLEUS"
+        version: "{{ .Values.image.tag | default .Chart.AppVersion }}"
+        configuration:
+          awsRegion: "region"
+          iotRoleAlias: "GreengrassCoreTokenExchangeRoleAlias"
+          iotDataEndpoint: "device-data-prefix-ats.iot.region.amazonaws.com"
+          iotCredEndpoint: "device-credentials-prefix.credentials.region.amazonaws.com"
