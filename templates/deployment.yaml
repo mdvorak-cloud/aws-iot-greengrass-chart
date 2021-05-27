@@ -33,13 +33,18 @@ spec:
           {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- with .Values.service.ports }}
           ports:
-            - name: mqtt
-              containerPort: 8883
-              protocol: TCP
-          #readinessProbe:
-          #  tcpSocket:
-          #    port: mqtt
+            {{- range . }}
+            - containerPort: {{ .containerPort }}
+              {{- with .protocol }}
+              protocol: {{ . | quote }}
+              {{- end }}
+              {{- with .name }}
+              name: {{ . | quote }}
+          {{- end }}
+          {{- end }}
+          {{- end }}
           resources:
           {{- toYaml .Values.resources | nindent 12 }}
           env:
@@ -55,6 +60,11 @@ spec:
               value: {{ .Values.greengrass.deployDevTools | quote }}
             - name: INIT_CONFIG
               value: {{ .Values.greengrass.configPath | quote }}
+            - name: LOG_LEVEL
+              value: {{ .Values.greengrass.logLevel }}
+          {{- with .Values.env }}
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
           volumeMounts:
             - mountPath: {{ .Values.greengrass.certificateFilePath | quote }}
               name: credentials

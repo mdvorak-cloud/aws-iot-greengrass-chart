@@ -26,6 +26,7 @@ greengrass:
   rootCaPath: "/greengrass/certs/AmazonRootCA1.pem"
   rootpath: "/greengrass/v2"
   componentDefaultUser: "ggc_user:ggc_group"
+  logLevel: INFO
   deployDevTools: false
   nucleusConfiguration: { }
 
@@ -57,7 +58,11 @@ securityContext: { }
 
 service:
   type: ClusterIP
-  port: 8883
+  ports: [ ]
+#    - name: stream_manager_server
+#      port: 8088
+#      containerPort: 8088
+#      protocol: TCP
 
 ingress:
   enabled: false
@@ -93,5 +98,9 @@ nodeSelector: { }
 tolerations: [ ]
 
 affinity: { }
+
+env: [ ]
+# - name: STREAM_MANAGER_SERVER_PORT
+#   value: "8088"
 
 extraObjects: [ ]

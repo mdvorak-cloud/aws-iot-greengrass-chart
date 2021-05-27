@@ -1,3 +1,4 @@
+{{- if .Values.service.ports }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -7,9 +8,16 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: 8883
-      protocol: TCP
-      name: mqtt
+    {{- range .Values.service.ports }}
+    - port: {{ .port }}
+      targetPort: {{ .containerPort }}
+      {{- with .protocol }}
+      protocol: {{ . | quote }}
+      {{- end }}
+      {{- with .name }}
+      name: {{ . | quote }}
+  {{- end }}
+  {{- end }}
   selector:
   {{- include "aws-iot-greengrass.selectorLabels" . | nindent 4 }}
+  {{- end }}
