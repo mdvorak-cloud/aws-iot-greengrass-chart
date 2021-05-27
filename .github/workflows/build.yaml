@@ -63,7 +63,13 @@ jobs:
       - name: Helm install
         run: |
           kubectl apply -f ci/fake-secret.yaml
-          helm install "${NAME}" . --set image.tag="${IMAGE_TAG}"
+          helm install "${NAME}" . \
+            --set image.tag="${IMAGE_TAG}" \
+            --set greengrass.thingName="test" \
+            --set greengrass.awsRegion="us-west-2" \
+            --set greengrass.iotDataEndpoint="device-data-prefix-ats.iot.us-west-2.amazonaws.com" \
+            --set greengrass.iotCredEndpoint="device-credentials-prefix.credentials.us-west-2.amazonaws.com" \
+            --set greengrass.iotRoleAlias="GreengrassCoreTokenExchangeRoleAlias"
 
       # Test deployment
       - name: Wait
